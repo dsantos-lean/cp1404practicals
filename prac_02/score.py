@@ -4,7 +4,7 @@ import random
 def main():
     score = float(input("Enter score: "))
     result = determine_result(score)
-    print(result)
+    print(f"Your score is {score} = {result}")
     score = random.randint(1, 100)
     print(f"Random score is {score} = {result}")
 
