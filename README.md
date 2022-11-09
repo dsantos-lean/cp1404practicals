@@ -1,6 +1,6 @@
 # Repository for CP1404 Practicals
 
-## Lean Delos Santos, Bachelor of Information Technology (TR3)
+## Lean Delos Santos, Student: Bachelor of Information Technology (TR3)
 
 This repository is where I learn programming and put my CP1404 practical codes.
 
