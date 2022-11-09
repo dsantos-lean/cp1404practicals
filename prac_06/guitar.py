@@ -8,9 +8,8 @@ class Guitar:
     def __str__(self):
         return "{} ({}) : $ {}".format(self.name, self.year, self.cost)
 
-    def get_age(self, current_year=2022):
-        self.age = current_year - self.year
-        return self.age
+    def get_age(self):
+        return 2022 - self.year
 
     def is_vintage(self):
-        return self.age >= 50
+        return self.get_age() >= 50
