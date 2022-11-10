@@ -1,11 +1,12 @@
 """
 CP1404 Do-from-scratch exercise
 Project Management Program
-Estimated Time:
-Actual Time:
+Estimated Time: 2 hours
+Actual Time: 3 hours 30 minutes
 """
 from datetime import datetime
 from project import Project
+
 
 def main():
     """Read file of programming language details, save as objects, display."""
@@ -122,9 +123,10 @@ def save_projects(projects):
     filename = input("Output file: ")
     out_file = open(filename, "w")
     for project in projects:
-        print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t{project.completion_percentage}", file=out_file)
+        print(
+            f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t{project.completion_percentage}",
+            file=out_file)
     out_file.close()
-
 
 
 main()
