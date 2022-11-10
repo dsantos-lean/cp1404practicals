@@ -14,6 +14,7 @@ def main():
     guitars.sort()  # __lt__ method defined in Guitar class
     max_length = max([len(guitar.name) for guitar in guitars])
     for i, guitar in enumerate(guitars, 1):
+        # Removed __str__ method from Guitar class for this to work
         print(f"{i}. {guitar.name:{max_length}} ({guitar.year}), costs ${guitar.cost:>9}")
     write_to_file(guitars)
 
