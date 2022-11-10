@@ -4,6 +4,8 @@ Project Management Program
 Estimated Time:
 Actual Time:
 """
+from datetime import datetime
+
 from project import Project
 
 
@@ -14,29 +16,72 @@ def main():
     choice = input(">>> ").upper()
     while choice != "Q":
         if choice == "L":  # TODO error-checking
+            """Load projects from file"""
             load_projects(projects)
-        elif choice == "S":  # TODO save to list, (Prompt the user for a filename to save projects to and save them)
+        elif choice == "S":
             print("Load projects")
             save_projects(projects)
-        elif choice == "D":  # DONE
+        elif choice == "D":
+            """Display incomplete and complete projects"""
             projects.sort()
             display_incomplete_projects(projects)
             display_completed_projects(projects)
-        elif choice == "F":  # filter projects by date, (Ask the user for a date and display only projects that start after that date, sorted by date)
-            pass
-        elif choice == "A":  # add new project, (Ask the user for the inputs and add a new project to memory)
-            pass
-        elif choice == "U":  # update project, (Choose a project, then modify the completion % and/or priority - leave blank to retain existing values)
-            pass
+        elif choice == "F":
+            """Filter and display only projects that start after user inputted date"""
+            date_string = input("Show projects that start after date (dd/mm/yy): ")
+            filter_projects(date_string, projects)
+        elif choice == "A":
+            """Add new project into projects list"""
+            print("Let's add a new project")
+            add_new_project(projects)
+        elif choice == "U":
+            """Choose and modify an existing project"""
+            for i, project in enumerate(projects):
+                print(i, project)
+            update_project(projects)
         display_menu()
         choice = input(">>> ").upper()
-    # max_length = max([len(project.name) for project in projects])
-    # for project in projects:
-    #     # Removed __str__ method from Project class for this to work
-    #     print(f"{project.name}, {project.start_date}, {project.priority}, {project.cost_estimate}, {project.completion_percentage}")
+
+
+def filter_projects(date_string, projects):
+    """Filter projects by date"""
+    formatted_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+    filtered_projects = [project for project in projects if
+                         datetime.strptime(project.start_date, "%d/%m/%Y").date() >= formatted_date]
+    filtered_projects.sort()
+    for project in filtered_projects:
+        print(project)
+
+
+def add_new_project(projects):
+    """Add new project from user input"""
+    name = input("Name: ")
+    start_date = input("Start date (dd/mm/yy): ")
+    priority = int(input("Priority: "))
+    cost_estimate = float(input("Cost estimate: $"))
+    percent_complete = int(input("Percent complete: "))
+    projects_to_add = Project(name, start_date, priority, cost_estimate, percent_complete)
+    projects.append(projects_to_add)
+
+
+def update_project(projects):
+    """Update existing project details"""
+    project_index = int(input("Project choice: "))
+    print(projects[project_index])
+    try:
+        new_percentage = int(input("New Percentage: "))
+        projects[project_index].completion_percentage = new_percentage
+    except ValueError:
+        pass
+    try:
+        new_priority = int(input("New Priority: "))
+        projects[project_index].priority = new_priority
+    except ValueError:
+        pass
 
 
 def display_incomplete_projects(projects):
+    """Display incomplete projects"""
     print("Incomplete projects:")
     incomplete_projects = [project for project in projects if not project.is_completed()]
     for items in incomplete_projects:
@@ -44,6 +89,7 @@ def display_incomplete_projects(projects):
 
 
 def display_completed_projects(projects):
+    """Display completed projects"""
     print("Completed projects: ")
     completed_projects = [project for project in projects if project.is_completed()]
     for items in completed_projects:
@@ -51,6 +97,7 @@ def display_completed_projects(projects):
 
 
 def display_menu():
+    """Display menu"""
     print("- (L)oad projects")
     print("- (S)ave projects")
     print("- (D)isplay projects")
@@ -76,9 +123,8 @@ def save_projects(projects):
     """Write new projects list to projects.txt file"""
     filename = input("Output file: ")
     out_file = open(filename, "w")
-    # Check how to add header
+    out_file.readline()
     for project in projects:
-        # Edit formatting
         print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t{project.completion_percentage}", file=out_file)
     out_file.close()
 
