@@ -5,9 +5,7 @@ Estimated Time:
 Actual Time:
 """
 from datetime import datetime
-
 from project import Project
-
 
 def main():
     """Read file of programming language details, save as objects, display."""
@@ -15,7 +13,7 @@ def main():
     display_menu()
     choice = input(">>> ").upper()
     while choice != "Q":
-        if choice == "L":  # TODO error-checking
+        if choice == "L":
             """Load projects from file"""
             load_projects(projects)
         elif choice == "S":
@@ -28,8 +26,7 @@ def main():
             display_completed_projects(projects)
         elif choice == "F":
             """Filter and display only projects that start after user inputted date"""
-            date_string = input("Show projects that start after date (dd/mm/yy): ")
-            filter_projects(date_string, projects)
+            filter_projects(projects)
         elif choice == "A":
             """Add new project into projects list"""
             print("Let's add a new project")
@@ -43,14 +40,15 @@ def main():
         choice = input(">>> ").upper()
 
 
-def filter_projects(date_string, projects):
+def filter_projects(projects):
     """Filter projects by date"""
-    formatted_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+    date_string = input("Show projects that start after date (dd/mm/yy): ")
+    formatted_date = datetime.strptime(date_string, '%d/%m/%Y').date()
     filtered_projects = [project for project in projects if
                          datetime.strptime(project.start_date, "%d/%m/%Y").date() >= formatted_date]
     filtered_projects.sort()
-    for project in filtered_projects:
-        print(project)
+    for item in filtered_projects:
+        print(item)
 
 
 def add_new_project(projects):
@@ -123,19 +121,10 @@ def save_projects(projects):
     """Write new projects list to projects.txt file"""
     filename = input("Output file: ")
     out_file = open(filename, "w")
-    out_file.readline()
     for project in projects:
         print(f"{project.name}\t{project.start_date}\t{project.priority}\t{project.cost_estimate}\t{project.completion_percentage}", file=out_file)
     out_file.close()
 
 
-# x = Project("X project", 12/12/2022, 10, 600.0, 99)
-#
-# def run_tests():
-#     """Test different age and vintage status outputs"""
-#     print(f"{x.name} {x.is_completed()}")
-
-
 
 main()
-# run_tests()
